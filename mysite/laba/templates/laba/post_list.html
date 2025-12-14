@@ -5,16 +5,28 @@
 {% block content %}
 <h2>Последние посты</h2>
 
-{% for post in posts %}
-<div class="post">
-    <div class="post-header">
-        <strong>{{ post.author.username }}</strong>
-        <span>{{ post.created_at }}</span>
+{% for post in page_obj %}
+    <div class="post">
+        <p>{{ post.text }}</p>
+        <small>
+            {{ post.author.username }} · {{ post.created_at }}
+        </small>
     </div>
-
-    <p>{{ post.content }}</p>
-</div>
 {% empty %}
-<p>Постов пока нет</p>
+    <p>Постов пока нет</p>
 {% endfor %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+    {% endif %}
+
+    <span>
+        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Вперёд</a>
+    {% endif %}
+</div>
+
 {% endblock %}

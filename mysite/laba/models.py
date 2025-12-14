@@ -15,8 +15,8 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         related_name='posts'
     )
-    content = models.TextField()
+    text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.author.username}: {self.content[:30]}'
+        return f'{self.author.username}: {self.text[:30]}'

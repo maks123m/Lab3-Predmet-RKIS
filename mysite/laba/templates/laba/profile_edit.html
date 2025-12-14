@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактирование профиля</title>
+    <link rel="stylesheet" href="{% static 'laba/style.css' %}">
+</head>
+<body>
+
+<div class="profile">
+    <h2>Редактировать профиль</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <br>
+    <a href="{% url 'profile' request.user.username %}">Назад в профиль</a>
+</div>
+
+</body>
+</html>

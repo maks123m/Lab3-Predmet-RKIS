@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Профиль {{ profile_user.username }}</title>
+    <link rel="stylesheet" href="{% static 'laba/style.css' %}">
+</head>
+<body>
+<div class="profile">
+    {% if profile.avatar %}
+    <img src="{{ profile.avatar.url }}" alt="Аватар" width="120">
+    {% else %}
+    <p>Аватар не установлен</p>
+    {% endif %}
+
+    <h2>{{ profile_user.username }}</h2>
+    <p>{{ profile.bio }}</p>
+</div>
+
+{% if request.user == profile_user %}
+<a href="{% url 'profile_edit' %}">Редактировать профиль</a>
+{% endif %}
+
+<h3>Посты пользователя</h3>
+
+{% for post in page_obj %}
+<div class="post">
+    <p>{{ post.text }}</p>
+    <small>{{ post.created_at }}</small>
+</div>
+{% empty %}
+<p>Постов пока нет</p>
+{% endfor %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+    {% endif %}
+
+    <span>
+        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Вперёд</a>
+    {% endif %}
+</div>
+
+</body>
+</html>
