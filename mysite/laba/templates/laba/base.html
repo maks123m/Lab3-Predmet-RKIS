@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мой сайт{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'laba/style.css' %}">
+</head>
+<body>
+
+<header>
+    <h1>Мой Django проект</h1>
+    <nav>
+        <a href="/">Главная</a>
+        {% if user.is_authenticated %}
+        <span>{{ user.username }}</span>
+        {% else %}
+        <a href="#">Войти</a>
+        {% endif %}
+    </nav>
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

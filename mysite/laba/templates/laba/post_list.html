@@ -1,0 +1,20 @@
+{% extends 'laba/base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<h2>Последние посты</h2>
+
+{% for post in posts %}
+<div class="post">
+    <div class="post-header">
+        <strong>{{ post.author.username }}</strong>
+        <span>{{ post.created_at }}</span>
+    </div>
+
+    <p>{{ post.content }}</p>
+</div>
+{% empty %}
+<p>Постов пока нет</p>
+{% endfor %}
+{% endblock %}
