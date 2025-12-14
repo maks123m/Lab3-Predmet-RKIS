@@ -1,27 +1,16 @@
-{% load static %}
+{% extends 'laba/base.html' %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Редактирование профиля</title>
-    <link rel="stylesheet" href="{% static 'laba/style.css' %}">
-</head>
-<body>
+{% block title %}Редактирование профиля{% endblock %}
 
+{% block content %}
 <div class="profile">
-    <h2>Редактировать профиль</h2>
+    <h2>Редактирование профиля</h2>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-
         {{ form.as_p }}
-
         <button type="submit">Сохранить</button>
     </form>
-
-    <br>
-    <a href="{% url 'profile' request.user.username %}">Назад в профиль</a>
 </div>
 
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'laba/base.html' %}
+
+{% block title %}Пост{% endblock %}
+
+{% block content %}
+<div class="post">
+    <p>{{ post.text }}</p>
+    <small>
+        {{ post.author.username }} · {{ post.created_at }}
+    </small>
+</div>
+<div class="post-actions">
+    <form method="post" action="{% url 'post_like' post.id %}">
+        {% csrf_token %}
+        <button type="submit">❤️</button>
+    </form>
+
+    <span>Лайков: {{ post.likes.count }}</span>
+</div>
+
+<hr>
+
+<h3>Комментарии</h3>
+
+{% for comment in comments %}
+<div class="comment">
+    <p>{{ comment.text }}</p>
+    <small>
+        {{ comment.author.username }} · {{ comment.created_at }}
+    </small>
+</div>
+{% empty %}
+<p>Комментариев пока нет</p>
+{% endfor %}
+
+{% if request.user.is_authenticated %}
+<hr>
+<h4>Добавить комментарий</h4>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить</button>
+</form>
+{% else %}
+<p>Чтобы комментировать — войдите</p>
+{% endif %}
+{% endblock %}

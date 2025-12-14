@@ -6,18 +6,41 @@
 <h2>Последние посты</h2>
 
 {% for post in page_obj %}
-    <div class="post">
-        <p>{{ post.text }}</p>
-        <small>
-            {{ post.author.username }} · {{ post.created_at }}
-        </small>
+<div class="post">
+    <p>
+        <a href="{% url 'post_detail' post.id %}">
+            {{ post.text }}
+        </a>
+    </p>
+
+    <small>
+        {{ post.author.username }} · {{ post.created_at }}
+    </small>
+
+    {% if request.user == post.author %}
+    <div class="post-actions">
+        <a href="{% url 'post_edit' post.id %}">Редактировать</a>
     </div>
-{% empty %}
-    <p>Постов пока нет</p>
+    {% endif %}
+
+    <div class="post-actions">
+        <form method="post" action="{% url 'post_like' post.id %}">
+            {% csrf_token %}
+            <button type="submit">❤️</button>
+        </form>
+
+        <span>Лайков: {{ post.likes.count }}</span>
+    </div>
+
+</div>
+
+
 {% endfor %}
+
+
 <div class="pagination">
     {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+    <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
     {% endif %}
 
     <span>
@@ -25,7 +48,7 @@
     </span>
 
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">Вперёд</a>
+    <a href="?page={{ page_obj.next_page_number }}">Вперёд</a>
     {% endif %}
 </div>
 

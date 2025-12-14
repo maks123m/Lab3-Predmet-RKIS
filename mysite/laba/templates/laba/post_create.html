@@ -1,0 +1,15 @@
+{% extends 'laba/base.html' %}
+
+{% block title %}Создать пост{% endblock %}
+
+{% block content %}
+<div class="profile">
+    <h2>Новый пост</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Опубликовать</button>
+    </form>
+</div>
+{% endblock %}

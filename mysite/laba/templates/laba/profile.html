@@ -1,49 +1,69 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Профиль {{ profile_user.username }}</title>
-    <link rel="stylesheet" href="{% static 'laba/style.css' %}">
-</head>
-<body>
+{% extends 'laba/base.html' %}
+
+{% block title %}Профиль {{ profile_user.username }}{% endblock %}
+
+{% block content %}
 <div class="profile">
-    {% if profile.avatar %}
-    <img src="{{ profile.avatar.url }}" alt="Аватар" width="120">
-    {% else %}
-    <p>Аватар не установлен</p>
-    {% endif %}
+    <div class="profile-avatar">
+        {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="Аватар">
+        {% else %}
+        <div class="avatar-placeholder">Нет фото</div>
+        {% endif %}
+    </div>
 
     <h2>{{ profile_user.username }}</h2>
     <p>{{ profile.bio }}</p>
-</div>
 
-{% if request.user == profile_user %}
-<a href="{% url 'profile_edit' %}">Редактировать профиль</a>
-{% endif %}
+    {% if request.user == profile_user %}
+    <a href="{% url 'profile_edit' %}">Редактировать профиль</a>
+
+    <form method="post" action="{% url 'delete_profile' %}"
+          onsubmit="return confirm('Ты точно хочешь удалить профиль?');">
+        {% csrf_token %}
+        <button type="submit" class="danger">
+            Удалить профиль
+        </button>
+    </form>
+    {% endif %}
+    {% if request.user == profile_user %}
+    <a href="{% url 'post_create' %}">Создать пост</a>
+    {% endif %}
+
+</div>
 
 <h3>Посты пользователя</h3>
 
 {% for post in page_obj %}
 <div class="post">
-    <p>{{ post.text }}</p>
+    <p>
+        <a href="{% url 'post_detail' post.id %}">
+            {{ post.text }}
+        </a>
+    </p>
+
     <small>{{ post.created_at }}</small>
+
+    {% if request.user == post.author %}
+    <div class="post-actions">
+        <a href="{% url 'post_edit' post.id %}">Редактировать</a>
+
+        <form method="post" action="{% url 'post_delete' post.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Удалить</button>
+        </form>
+    </div>
+    {% endif %}
+    <div class="post-actions">
+        <form method="post" action="{% url 'post_like' post.id %}">
+            {% csrf_token %}
+            <button type="submit">❤️</button>
+        </form>
+
+        <span>Лайков: {{ post.likes.count }}</span>
+    </div>
+
 </div>
-{% empty %}
-<p>Постов пока нет</p>
+
 {% endfor %}
-<div class="pagination">
-    {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
-    {% endif %}
-
-    <span>
-        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
-    </span>
-
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">Вперёд</a>
-    {% endif %}
-</div>
-
-</body>
-</html>
+{% endblock %}
