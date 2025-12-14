@@ -4,33 +4,48 @@ body {
     margin: 0;
 }
 
-header {
+
+/* ===== HEADER ===== */
+
+.site-header {
     background: #333;
     color: white;
-    padding: 10px 20px;
 }
 
-nav a {
-    color: white;
-    margin-right: 10px;
-    text-decoration: none;
+.header-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.main-nav a,
+.user-nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 12px;
+}
+
+.user-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.username {
+    opacity: 0.8;
+}
+
 
 main {
     padding: 20px;
-}
-
-.post {
-    background: white;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-}
-
-.post-header {
-    font-size: 0.9em;
-    color: #555;
-    margin-bottom: 10px;
 }
 
 
@@ -68,13 +83,7 @@ main {
     color: #777;
 }
 
-.profile h2 {
-    margin: 10px 0 5px;
-}
 
-.profile p {
-    color: #555;
-}
 
 .post {
     background: white;
@@ -106,7 +115,8 @@ main {
 }
 
 a {
-    color: #0066cc;
+    color: #707070;
+    text-decoration: none;
 }
 
 button.danger {
@@ -120,4 +130,41 @@ button.danger {
 
 button.danger:hover {
     background: #c9302c;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 16px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #0066cc;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e9ecef;
+    color: #333;
+}
+
+
+.btn-danger {
+    background: #d9534f;
+    color: white;
+}
+
+.btn-icon {
+    padding: 8px 10px;
+}
+
+.post-actions {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }

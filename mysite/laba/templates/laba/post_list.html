@@ -17,6 +17,10 @@
         {{ post.author.username }} · {{ post.created_at }}
     </small>
 
+    <div class="post-meta">
+        💬 Комментариев: {{ post.comments.count }}
+    </div>
+
     {% if request.user == post.author %}
     <div class="post-actions">
         <a href="{% url 'post_edit' post.id %}">Редактировать</a>
